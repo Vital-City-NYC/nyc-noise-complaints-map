@@ -1,8 +1,8 @@
 {
-  "generated": "2026-09-21T10:00:18+00:00",
+  "generated": "2026-09-22T09:59:42+00:00",
   "since": "2025-01-01T00:00:00",
-  "until": "2026-09-21T00:00:00",
-  "total_rows": 1380036,
+  "until": "2026-09-22T00:00:00",
+  "total_rows": 1382538,
   "rows_excluded_artifact": 128381,
   "rows_excluded_geo": 0,
   "subtypes": [
@@ -16,19 +16,19 @@
     "Noise - House of Worship"
   ],
   "subtype_counts": {
-    "Noise - Residential": 733200,
-    "Noise - Street/Sidewalk": 310804,
-    "Noise - Commercial": 107123,
-    "Noise": 97736,
-    "Noise - Vehicle": 81699,
-    "Noise - Helicopter": 27820,
-    "Noise - Park": 16587,
-    "Noise - House of Worship": 5067
+    "Noise - Residential": 734503,
+    "Noise - Street/Sidewalk": 311372,
+    "Noise - Commercial": 107352,
+    "Noise": 97890,
+    "Noise - Vehicle": 81901,
+    "Noise - Helicopter": 27825,
+    "Noise - Park": 16622,
+    "Noise - House of Worship": 5073
   },
   "min_chronic": 10,
   "hex_resolution": 8,
-  "saturday_date": "2026-09-12",
-  "saturday_count": 3744,
-  "violations_fetched": 5095,
-  "violations_plotted": 4997
+  "saturday_date": "2026-09-19",
+  "saturday_count": 3587,
+  "violations_fetched": 5097,
+  "violations_plotted": 4999
 }
