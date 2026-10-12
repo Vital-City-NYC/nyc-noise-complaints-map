@@ -1,17 +1,17 @@
 {
- "generated": "2026-10-11T16:07:51+00:00",
+ "generated": "2026-10-12T19:25:58+00:00",
  "window": {
   "since": "2025-01-01",
-  "until": "2026-10-11",
-  "last_day": "2026-10-10",
-  "days": 648,
+  "until": "2026-10-12",
+  "last_day": "2026-10-11",
+  "days": 649,
   "months": 21,
-  "label_long": "January 1, 2025 through October 10, 2026",
+  "label_long": "January 1, 2025 through October 11, 2026",
   "label_short": "Jan 2025 to Oct 2026",
   "label_sentence": "January 2025 to October 2026"
  },
  "total": 1294925,
- "per_day": 1998,
+ "per_day": 1995,
  "subtypes": [
   {
    "type": "Noise - Residential",
@@ -223,7 +223,7 @@
    "year": 2026,
    "n": 588874,
    "partial": true,
-   "through": "Oct 10"
+   "through": "Oct 11"
   }
  ]
 }
