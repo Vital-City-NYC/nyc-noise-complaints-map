@@ -29,7 +29,7 @@ We use the dataset's own `complaint_type` values unchanged for filtering and cou
 | Noise - Residential | Noise - Residential | Loud music/parties, banging, talking, TV in apartments — the largest category by far. Routed to the NYPD. |
 | Noise - Street/Sidewalk | Noise - Street/Sidewalk | Loud music or talking on sidewalks, idle car stereos, street fairs. Routed to the NYPD. |
 | Noise - Commercial | Noise - Commercial | Bars, clubs, restaurants, retail. Routed to the NYPD. |
-| Noise | Noise – Construction/equipment (DEP) | The category routed to the Dept. of Environmental Protection (DEP) rather than the NYPD. **Not** an "other/unspecified" bucket — its descriptors are construction before/after hours, construction and lawn equipment, jackhammering, HVAC/ventilation, alarms, manufacturing, barking dogs and ice-cream trucks. (Only ~38 records carry the genuine "Other Noise Sources" descriptor.) Relabeled in the panel because a bare "Noise" entry reads like a parent or catch-all next to the "Noise - X" types when it is a distinct peer. |
+| Noise | Noise – Construction/equipment (DEP) | The category routed to the Dept. of Environmental Protection (DEP) rather than the NYPD. **Not** an "other/unspecified" bucket — its descriptors are construction before/after hours, construction and lawn equipment, jackhammering, HVAC/ventilation, alarms, manufacturing, barking dogs and ice-cream trucks. (Only ~38 records carry the "Other Noise Sources" descriptor itself.) Relabeled in the panel because a bare "Noise" entry reads like a parent or catch-all next to the "Noise - X" types when it is a distinct peer. |
 | Noise - Vehicle | Noise - Vehicle | Car alarms, modified exhausts, motorcycles. Routed to the NYPD. |
 | Noise - Helicopter | Noise - Helicopter | Helicopter overflight complaints. **See caveat below.** |
 | Noise - Park | Noise - Park | Music, parties, gatherings in parks. |
@@ -49,7 +49,7 @@ The raw data is roughly 1 million records over the time window. We do not load r
 The heatmap is a kernel-density rendering (Leaflet.heat) fed by the centroids of each H3 hex, weighted by complaint count.
 
 - The intensity scale is **log-transformed by default** because residential noise is so dominant numerically that a linear scale washes everything else out.
-- The maximum intensity is **capped at the 95th percentile** of hex counts. A small number of hexes (notably around LaGuardia Airport, JFK, and Manhattan heliports) have helicopter-noise complaint volumes high enough to skew the entire map's color scale. The cap means those hexes still appear at maximum intensity but do not pull the rest of the city down to pale yellow.
+- The maximum intensity is **capped at the 95th percentile** of hex counts. A small number of hexes (especially around LaGuardia Airport, JFK, and Manhattan heliports) have helicopter-noise complaint volumes high enough to skew the entire map's color scale. The cap means those hexes still appear at maximum intensity but do not pull the rest of the city down to pale yellow.
 - The user can switch to a linear scale via the "Heat color scale" toggle.
 
 ## Chronic addresses
@@ -90,11 +90,11 @@ NYC 311 helicopter-noise complaints are filed against an address — but the hel
 
 One address — 655 East 230 Street in the Bronx — carries about 128,000 noise complaints in the window. That is roughly 8,000 complaints per month, or 270 per day, at a single address: physically impossible. This is a 311 system artifact rather than a real signal. Possible explanations include a single resident filing automated repeat complaints, or a geocoding fallback writing this address whenever the original location string fails to resolve.
 
-**We exclude it.** The ~50m block containing that address is on an explicit blocklist (`ARTIFACT_BLOCKLIST` in `scripts/build_data.py`) and its complaints are dropped from the map, the charts and every count on this site. `data/meta.json` records how many rows were excluded on each build, so the exclusion is auditable rather than invisible. Nothing else is excluded on these grounds; if another address ever reaches a similar volume it would be evaluated the same way and named here.
+**We exclude it.** The ~50m block containing that address is on an explicit blocklist (`ARTIFACT_BLOCKLIST` in `scripts/build_data.py`) and its complaints are dropped from the map, the charts and every count on this site. `data/meta.json` records how many rows were excluded on each build, so the exclusion can be audited. Nothing else is excluded on these grounds; if another address ever reaches a similar volume it would be evaluated the same way and named here.
 
 ## Time of day
 
-311's `created_date` field is recorded in local Eastern time, not UTC. We verified this against the hourly distribution of the raw field: noise complaints peak at hours 22 and 23, which is 11 p.m. local. Had the field been UTC, that peak would sit at hours 02-03. Hours are therefore read straight off `created_date` with no timezone conversion.
+311's `created_date` field is recorded in local Eastern time, not UTC. The hourly distribution of the raw field confirms it: noise complaints peak at hours 22 and 23, which is 11 p.m. local. Had the field been UTC, that peak would sit at hours 02-03. Hours are therefore read straight off `created_date` with no timezone conversion.
 
 The four time-of-day buckets are morning (6 a.m. to noon), afternoon (noon to 6 p.m.), evening (6 p.m. to midnight) and late night (midnight to 6 a.m.), all local.
 
@@ -106,7 +106,7 @@ It is not necessarily the Saturday just past. 311 publishes on a lag of roughly 
 
 ## What this map is not
 
-- **It is not a measurement of how loud New York is.** It measures who calls 311. Reporting rates vary substantially by neighborhood — by language, age, housing tenure, trust in government, and many other factors. A neighborhood that calls 311 less may not be quieter; it may simply complain less.
+- **It is not a measurement of how loud New York is.** It measures who calls 311. Reporting rates vary substantially by neighborhood — by language, age, housing tenure, trust in government, and many other factors. A neighborhood that calls 311 less may not be quieter; it may complain less.
 - **It is not in real time.** The data is refreshed nightly via GitHub Actions; the freshness date is shown in the panel.
 - **It is not a list of buildings to avoid.** A chronic address in this map could be a single noisy bar, a long-standing construction site, or a corner where the same neighbor has filed dozens of complaints over months. Always read the popup before drawing conclusions.
 
@@ -116,7 +116,7 @@ The build script is run daily by `.github/workflows/refresh.yml`. The workflow:
 
 1. Calls `scripts/build_data.py` to pull the full window from Socrata.
 2. Writes new aggregated JSON files to `data/`.
-3. Commits the changes if anything actually changed.
+3. Commits the changes if anything changed.
 
 The window's end date is computed at run time — it is always the last complete day before the build — so no date is hardcoded anywhere in the pipeline. A `meta.json` file records the generation timestamp, the date range used, and the row count. `data/charts.json` holds the aggregates behind the three standalone charts, which read it at load time rather than carrying their own copies of the numbers.
 
