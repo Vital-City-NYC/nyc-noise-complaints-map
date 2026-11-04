@@ -1,7 +1,7 @@
 {
-  "generated": "2026-11-03T17:43:57+00:00",
+  "generated": "2026-11-04T17:58:57+00:00",
   "since": "2025-01-01T00:00:00",
-  "until": "2026-11-03T00:00:00",
+  "until": "2026-11-04T00:00:00",
   "total_rows": 1474811,
   "rows_excluded_artifact": 128397,
   "rows_excluded_geo": 0,
@@ -29,6 +29,6 @@
   "hex_resolution": 8,
   "saturday_date": "2026-10-24",
   "saturday_count": 2591,
-  "violations_fetched": 5287,
-  "violations_plotted": 5188
+  "violations_fetched": 5482,
+  "violations_plotted": 5382
 }
